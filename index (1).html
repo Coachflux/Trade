@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoNex Trading Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav>
+                <div class="logo">CryptoNex</div>
+                <ul class="nav-links">
+                    <li><a href="#" data-page="dashboard">Dashboard</a></li>
+                    <li><a href="#" data-page="markets">Markets</a></li>
+                    <li><a href="#" data-page="trade">Trade</a></li>
+                    <li><a href="#" data-page="futures">Futures</a></li>
+                    <li><a href="#" data-page="earn">Earn</a></li>
+                    <li><a href="#" data-page="wallet">Wallet</a></li>
+                </ul>
+                <div class="user-menu">
+                    <button id="account-type-toggle">Demo</button>
+                    <span id="user-balance">$0.00</span>
+                    <div class="user-dropdown">
+                        <button class="user-dropdown-btn">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div class="user-dropdown-content">
+                            <a href="#" data-page="profile">Profile</a>
+                            <a href="#" data-page="settings">Settings</a>
+                            <a href="#" id="logout-btn">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main id="main-content">
+            <!-- Dashboard Page -->
+            <section id="dashboard" class="page active">
+                <h1>Dashboard</h1>
+                <div class="dashboard-grid">
+                    <div class="card" id="portfolio-summary">
+                        <h2>Portfolio Summary</h2>
+                        <div id="portfolio-chart"></div>
+                        <div id="portfolio-total"></div>
+                    </div>
+                    <div class="card" id="market-overview">
+                        <h2>Market Overview</h2>
+                        <div id="market-list"></div>
+                    </div>
+                    <div class="card" id="recent-trades">
+                        <h2>Recent Trades</h2>
+                        <div id="trades-list"></div>
+                    </div>
+                    <div class="card" id="news-feed">
+                        <h2>Crypto News</h2>
+                        <div id="news-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Markets Page -->
+            <section id="markets" class="page">
+                <h1>Markets</h1>
+                <div class="markets-container">
+                    <div class="markets-header">
+                        <div class="market-search">
+                            <input type="text" id="market-search-input" placeholder="Search markets">
+                        </div>
+                        <div class="market-tabs">
+                            <button class="market-tab active" data-tab="spot">Spot</button>
+                            <button class="market-tab" data-tab="futures">Futures</button>
+                        </div>
+                    </div>
+                    <table id="markets-table">
+                        <thead>
+                            <tr>
+                                <th>Pair</th>
+                                <th>Last Price</th>
+                                <th>24h Change</th>
+                                <th>24h Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody id="markets-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Trade Page -->
+            <section id="trade" class="page">
+                <h1>Trade</h1>
+                <div class="trade-grid">
+                    <div class="card" id="trading-chart">
+                        <h2>BTC/USDT</h2>
+                        <div id="chart-container"></div>
+                    </div>
+                    <div class="card" id="order-book">
+                        <h2>Order Book</h2>
+                        <div id="order-book-content"></div>
+                    </div>
+                    <div class="card" id="trading-form">
+                        <h2>Place Order</h2>
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="spot">Spot</button>
+                            <button class="tab-btn" data-tab="margin">Margin</button>
+                        </div>
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="limit">Limit</button>
+                            <button class="tab-btn" data-tab="market">Market</button>
+                            <button class="tab-btn" data-tab="stop-limit">Stop-limit</button>
+                        </div>
+                        <form id="order-form">
+                            <div class="form-group">
+                                <label for="order-type">Type</label>
+                                <select id="order-type">
+                                    <option value="buy">Buy</option>
+                                    <option value="sell">Sell</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-amount">Amount</label>
+                                <input type="number" id="order-amount" step="0.00000001">
+                            </div>
+                            <div class="form-group">
+                                <label for="order-price">Price</label>
+                                <input type="number" id="order-price" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="order-total">Total</label>
+                                <input type="number" id="order-total" readonly>
+                            </div>
+                            <button type="submit" class="btn-primary">Place Order</button>
+                        </form>
+                    </div>
+                    <div class="card" id="open-orders">
+                        <h2>Open Orders</h2>
+                        <div id="open-orders-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Futures Page -->
+            <section id="futures" class="page">
+                <h1>Futures Trading</h1>
+                <div class="futures-grid">
+                    <div class="card" id="futures-chart">
+                        <h2>BTC/USDT Perpetual</h2>
+                        <div id="futures-chart-container"></div>
+                    </div>
+                    <div class="card" id="futures-positions">
+                        <h2>Positions</h2>
+                        <div id="positions-list"></div>
+                    </div>
+                    <div class="card" id="futures-order-form">
+                        <h2>Place Futures Order</h2>
+                        <form id="futures-order-form">
+                            <div class="form-group">
+                                <label for="futures-order-type">Type</label>
+                                <select id="futures-order-type">
+                                    <option value="long">Long</option>
+                                    <option value="short">Short</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="futures-leverage">Leverage</label>
+                                <input type="range" id="futures-leverage" min="1" max="100" value="10">
+                                <span id="leverage-value">10x</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="futures-amount">Amount</label>
+                                <input type="number" id="futures-amount" step="0.00000001">
+                            </div>
+                            <div class="form-group">
+                                <label for="futures-price">Price</label>
+                                <input type="number" id="futures-price" step="0.01">
+                            </div>
+                            <button type="submit" class="btn-primary">Place Futures Order</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Earn Page -->
+            <section id="earn" class="page">
+                <h1>Earn</h1>
+                <div class="earn-grid">
+                    <div class="card" id="staking">
+                        <h2>Staking</h2>
+                        <div id="staking-options"></div>
+                    </div>
+                    <div class="card" id="savings">
+                <cut_off_point>
+div>
+                    <div class="card" id="savings">
+                
+</cut_off_point>
+
+                        <h2>Savings</h2>
+                        <div id="savings-options"></div>
+                    </div>
+                    <div class="card" id="launchpad">
+                        <h2>Launchpad</h2>
+                        <div id="launchpad-projects"></div>
+                    </div>
+                    <div class="card" id="liquidity-pools">
+                        <h2>Liquidity Pools</h2>
+                        <div id="liquidity-pools-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wallet Page -->
+            <section id="wallet" class="page">
+                <h1>Wallet</h1>
+                <div class="wallet-grid">
+                    <div class="card" id="asset-overview">
+                        <h2>Asset Overview</h2>
+                        <div id="asset-list"></div>
+                    </div>
+                    <div class="card" id="deposit-withdraw">
+                        <h2>Deposit / Withdraw</h2>
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="deposit">Deposit</button>
+                            <button class="tab-btn" data-tab="withdraw">Withdraw</button>
+                        </div>
+                        <div id="deposit-form" class="tab-content active">
+                            <form id="deposit-crypto-form">
+                                <div class="form-group">
+                                    <label for="deposit-coin">Select Coin</label>
+                                    <select id="deposit-coin" required>
+                                        <option value="">Select a coin</option>
+                                        <option value="BTC">Bitcoin (BTC)</option>
+                                        <option value="ETH">Ethereum (ETH)</option>
+                                        <option value="USDT">Tether (USDT)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deposit-address">Deposit Address</label>
+                                    <input type="text" id="deposit-address" readonly>
+                                    <button type="button" id="copy-address" class="btn-secondary">Copy</button>
+                                </div>
+                                <div id="qr-code"></div>
+                            </form>
+                        </div>
+                        <div id="withdraw-form" class="tab-content">
+                            <form id="withdraw-crypto-form">
+                                <div class="form-group">
+                                    <label for="withdraw-coin">Select Coin</label>
+                                    <select id="withdraw-coin" required>
+                                        <option value="">Select a coin</option>
+                                        <option value="BTC">Bitcoin (BTC)</option>
+                                        <option value="ETH">Ethereum (ETH)</option>
+                                        <option value="USDT">Tether (USDT)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="withdraw-address">Withdrawal Address</label>
+                                    <input type="text" id="withdraw-address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="withdraw-amount">Amount</label>
+                                    <input type="number" id="withdraw-amount" step="0.00000001" required>
+                                </div>
+                                <button type="submit" class="btn-primary">Withdraw</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card" id="transaction-history">
+                        <h2>Transaction History</h2>
+                        <div id="transaction-list"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="notifications"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/trading.js"></script>
+    <script src="js/futures.js"></script>
+    <script src="js/earn.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
