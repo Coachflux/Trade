@@ -3,40 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - CryptoNex</title>
-    <link rel="stylesheet" href="css/auth.css">
+    <title>Referral System - Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-form">
-            <h1>Create a CryptoNex Account</h1>
-            <form id="signup-form">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirm-password" required>
-                </div>
-                <div class="form-group">
-                    <label for="referral-id">Referral ID (Optional)</label>
-                    <input type="text" id="referral-id" name="referral-id">
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
-                </div>
-                <button type="submit" class="btn-primary">Create Account</button>
-            </form>
-            <p class="auth-switch">Already have an account? <a href="login.html">Log In</a></p>
-        </div>
+    <div class="container">
+        <h1>Sign Up</h1>
+        <form id="signup-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="referral-code" placeholder="Referral Code (optional)">
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
     </div>
-    <script src="js/auth.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
 
