@@ -1,0 +1,65 @@
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  background: #e0e5ec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  background: #e0e5ec;
+  box-shadow: 9px 9px 16px #b3b8bf, -9px -9px 16px #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 400px;
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form {
+  margin-bottom: 20px;
+}
+
+.input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #e0e5ec;
+  box-shadow: inset 6px 6px 12px #b3b8bf, inset -6px -6px 12px #ffffff;
+  font-size: 16px;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #e0e5ec;
+  box-shadow: 6px 6px 12px #b3b8bf, -6px -6px 12px #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  box-shadow: 4px 4px 8px #b3b8bf, -4px -4px 8px #ffffff;
+}
+
+.users-list {
+  list-style: none;
+  padding: 0;
+}
+
+.hidden {
+  display: none;
+}
