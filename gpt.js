@@ -1,74 +1,93 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const signupForm = document.getElementById('signup-form');
-    const loginForm = document.getElementById('login-form');
-    const usernameDisplay = document.getElementById('username-display');
-    const referralCodeDisplay = document.getElementById('referral-code');
+let currentUser = null;
 
-    if (signupForm) {
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('signup-username').value;
-            const password = document.getElementById('signup-password').value;
-            const referralCode = generateReferralCode();
+// Show a specific page
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => {
+    page.style.display = 'none';
+  });
+  document.getElementById(pageId).style.display = 'block';
 
-            localStorage.setItem('username', username);
-            localStorage.setItem('password', password);
-            localStorage.setItem('referralCode', referralCode);
+  if (pageId === 'home-page' && currentUser) {
+    document.getElementById('username-display').textContent = currentUser.username;
+  } else if (pageId === 'referral-page' && currentUser) {
+    updateReferralPage();
+  }
+}
 
-            showPage('login-page');
-        });
+// Signup function
+function signup() {
+  const username = document.getElementById('signup-username').value;
+  const password = document.getElementById('signup-password').value;
+  const referralCode = document.getElementById('referral-code').value;
+
+  if (!username || !password) {
+    alert('Please fill in all fields.');
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  if (users.find(user => user.username === username)) {
+    alert('Username already exists.');
+    return;
+  }
+
+  const newUser = {
+    username,
+    password,
+    referralCode: generateReferralCode(),
+    points: 0,
+    invitedFriends: []
+  };
+
+  if (referralCode) {
+    const referrer = users.find(user => user.referralCode === referralCode);
+    if (referrer) {
+      referrer.points += 1;
+      referrer.invitedFriends.push(username);
+      localStorage.setItem('users', JSON.stringify(users));
     }
+  }
 
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
+  alert('Signup successful! Please login.');
+  showPage('login-page');
+}
 
-            const storedUsername = localStorage.getItem('username');
-            const storedPassword = localStorage.getItem('password');
+// Login function
+function login() {
+  const username = document.getElementById('login-username').value;
+  const password = document.getElementById('login-password').value;
 
-            if (username === storedUsername && password === storedPassword) {
-                usernameDisplay.textContent = username;
-                referralCodeDisplay.textContent = localStorage.getItem('referralCode');
-                showPage('home-page');
-            } else {
-                alert('Invalid username or password');
-            }
-        });
-    }
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const user = users.find(user => user.username === username && user.password === password);
 
-    function showPage(pageId) {
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(page => {
-            page.style.display = 'none';
-        });
-        document.getElementById(pageId).style.display = 'flex';
-    }
+  if (user) {
+    currentUser = user;
+    showPage('home-page');
+  } else {
+    alert('Invalid username or password.');
+  }
+}
 
-    function generateReferralCode() {
-        return Math.random().toString(36).substring(2, 10).toUpperCase();
-    }
+// Logout function
+function logout() {
+  currentUser = null;
+  showPage('login-page');
+}
 
-    function copyReferralCode() {
-        const referralCode = localStorage.getItem('referralCode');
-        navigator.clipboard.writeText(referralCode).then(() => {
-            alert('Referral code copied to clipboard!');
-        });
-    }
+// Update referral page
+function updateReferralPage() {
+  document.getElementById('user-referral-code').textContent = currentUser.referralCode;
+  document.getElementById('total-points').textContent = currentUser.points;
+  const invitedFriendsList = document.getElementById('invited-friends');
+  invitedFriendsList.innerHTML = currentUser.invitedFriends.map(friend => `<li>${friend}</li>`).join('');
+}
 
-    function logout() {
-        localStorage.removeItem('username');
-        localStorage.removeItem('password');
-        showPage('login-page');
-    }
+// Generate a random referral code
+function generateReferralCode() {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
 
-    // Check if user is already logged in
-    if (localStorage.getItem('username')) {
-        usernameDisplay.textContent = localStorage.getItem('username');
-        referralCodeDisplay.textContent = localStorage.getItem('referralCode');
-        showPage('home-page');
-    } else {
-        showPage('signup-page');
-    }
-});
+// Initialize
+showPage('signup-page');
