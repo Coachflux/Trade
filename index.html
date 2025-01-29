@@ -23,6 +23,31 @@
             </div>
     <button id="logoutButton" class="hidden">Logout</button>
     <script>
+      // Helper function to generate a random referral code
+function generateReferralCode() {
+  return Math.random().toString(36).substring(2, 8).toUpperCase()
+}
+
+// Helper function to get users from local storage
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users")) || []
+}
+
+// Helper function to save users to local storage
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users))
+}
+
+// Helper function to get current user from local storage
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("currentUser"))
+}
+
+// Helper function to save current user to local storage
+function saveCurrentUser(user) {
+  localStorage.setItem("currentUser", JSON.stringify(user))
+}
+
       const user = localStorage.getItem("user");
       if (user) {
         const parsedUser = JSON.parse(user);
