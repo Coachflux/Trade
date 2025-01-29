@@ -1,99 +1,50 @@
-<html>
-  <head>
-    <title>Home</title>
-    <style>
-      body {
-        text-align: center;
-        margin-top: 50px;
-      }
-      .hidden {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <h1 id="welcomeMessage">Hello</h1>
-    <div id="referral-info">
-                <h2>Your Referral Code: <span id="referral-code"></span></h2>
-                <h3>Points: <span id="points"></span></h3>
-            </div>
-            <div id="referred-users">
-                <h3>Users You've Referred:</h3>
-                <ul id="referred-list"></ul>
-            </div>
-    <button id="logoutButton" class="hidden">Logout</button>
-    <script>
-      // Helper function to generate a random referral code
-function generateReferralCode() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase()
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Referral App</title>
+  <link rel="stylesheet" href="gpt.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Signup Page -->
+    <div id="signup-page" class="page">
+      <h1>Sign Up</h1>
+      <input type="text" id="signup-username" placeholder="Username">
+      <input type="password" id="signup-password" placeholder="Password">
+      <input type="text" id="referral-code" placeholder="Referral Code (Optional)">
+      <button onclick="signup()">Sign Up</button>
+      <p>Already have an account? <a href="#" onclick="showPage('login-page')">Login</a></p>
+    </div>
 
-// Helper function to get users from local storage
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users")) || []
-}
+    <!-- Login Page -->
+    <div id="login-page" class="page" style="display: none;">
+      <h1>Login</h1>
+      <input type="text" id="login-username" placeholder="Username">
+      <input type="password" id="login-password" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <p>Don't have an account? <a href="#" onclick="showPage('signup-page')">Sign Up</a></p>
+    </div>
 
-// Helper function to save users to local storage
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users))
-}
+    <!-- Home Page -->
+    <div id="home-page" class="page" style="display: none;">
+      <h1>Welcome, <span id="username-display"></span></h1>
+      <button onclick="showPage('referral-page')">View Referrals</button>
+      <button onclick="logout()">Logout</button>
+    </div>
 
-// Helper function to get current user from local storage
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem("currentUser"))
-}
+    <!-- Referral Page -->
+    <div id="referral-page" class="page" style="display: none;">
+      <h1>Referral Page</h1>
+      <p>Your Referral Code: <strong id="user-referral-code"></strong></p>
+      <p>Total Points: <strong id="total-points"></strong></p>
+      <h3>Invited Friends:</h3>
+      <ul id="invited-friends"></ul>
+      <button onclick="showPage('home-page')">Back to Home</button>
+    </div>
+  </div>
 
-// Helper function to save current user to local storage
-function saveCurrentUser(user) {
-  localStorage.setItem("currentUser", JSON.stringify(user))
-}
-
-      const user = localStorage.getItem("user");
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        document.getElementById(
-          "welcomeMessage"
-        ).innerHTML = `Hello ${parsedUser.name}`;
-        document.getElementById("logoutButton").classList.remove("hidden");
-      } else {
-        document.getElementById(
-          "welcomeMessage"
-        ).innerHTML = `Hello, please <a href='login.html'>login</a>.`;
-      }
-
-      
-// Function to handle dashboard display
-function handleDashboard() {
-  const currentUser = getCurrentUser()
-  if (!currentUser) {
-    window.location.href = "login.html"
-  } else {
-    document.getElementById("user-name").textContent = currentUser.username
-    document.getElementById("referral-code").textContent = currentUser.referralCode
-    document.getElementById("points").textContent = currentUser.points
-
-    const referredList = document.getElementById("referred-list")
-    referredList.innerHTML = "" // Clear the list first
-    currentUser.referredUsers.forEach((user) => {
-      const li = document.createElement("li")
-      li.textContent = user
-      referredList.appendChild(li)
-    })
-
-    document.getElementById("logout-btn").addEventListener("click", () => {
-      localStorage.removeItem("currentUser")
-      window.location.href = "index.html"
-    })
-  }
-}
-
-      document
-        .getElementById("logoutButton")
-        .addEventListener("click", function () {
-          localStorage.removeItem("user");
-          window.location.href = "login.html";
-        });
-    </script>
-       <script src="script.js"></script>
-  </body>
+  <script src="gpt.js"></script>
+</body>
 </html>
