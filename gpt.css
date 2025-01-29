@@ -1,65 +1,55 @@
-/* styles.css */
 body {
-  font-family: Arial, sans-serif;
-  background: #e0e5ec;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e0e5ec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-.container {
-  background: #e0e5ec;
-  box-shadow: 9px 9px 16px #b3b8bf, -9px -9px 16px #ffffff;
-  padding: 30px;
-  border-radius: 20px;
-  width: 400px;
-  text-align: center;
+#app {
+    background: #e0e5ec;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px #a3b1c6, -10px -10px 20px #ffffff;
 }
 
-.title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.form {
-  margin-bottom: 20px;
+input {
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #e0e5ec;
+    box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+    width: 100%;
 }
 
-.input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #e0e5ec;
-  box-shadow: inset 6px 6px 12px #b3b8bf, inset -6px -6px 12px #ffffff;
-  font-size: 16px;
-  margin-bottom: 10px;
-  outline: none;
+button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #e0e5ec;
+    box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+    cursor: pointer;
 }
 
-.button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #e0e5ec;
-  box-shadow: 6px 6px 12px #b3b8bf, -6px -6px 12px #ffffff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+button:active {
+    box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
 }
 
-.button:hover {
-  box-shadow: 4px 4px 8px #b3b8bf, -4px -4px 8px #ffffff;
+a {
+    color: #007bff;
+    text-decoration: none;
 }
 
-.users-list {
-  list-style: none;
-  padding: 0;
-}
-
-.hidden {
-  display: none;
+a:hover {
+    text-decoration: underline;
 }
