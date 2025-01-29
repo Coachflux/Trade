@@ -24,7 +24,7 @@ function saveCurrentUser(user) {
 }
 
 // Function to handle sign up
-function handleSignUp(e) {
+function handleRegister(e) {
   e.preventDefault()
   const username = document.getElementById("username").value
   const password = document.getElementById("password").value
@@ -104,7 +104,7 @@ function handleDashboard() {
 
 // Check which page we're on and attach the appropriate event listeners
 document.addEventListener("DOMContentLoaded", () => {
-  const signupForm = document.getElementById("signup-form")
+  const registerForm = document.getElementById("register-form")
   const loginForm = document.getElementById("login-form")
   const dashboard = document.getElementById("user-name")
 
