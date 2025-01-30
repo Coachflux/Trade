@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{!! asset('img/mortarboard.png') !!}">
+
+    <title>Course Herd</title>
+
+   <!-- Bootstrap core CSS -->
+    <link href="{!! asset('css/bootstrap.css') !!}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="{!! asset('css/ie10-viewport-bug-workaround.css') !!}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{!! asset('css/style.css') !!}" rel="stylesheet">
+    <link href="{!! asset('css/animate.css') !!}" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="{!! asset('js/ie-emulation-modes-warning.js') !!}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+        
+        input {
+            border-color: #dadada !important;
+            color: #828282!important;
+            font-size: 15px !important;
+            /* height: 45px !important; */
+            font-weight: 100 !important;
+            box-shadow: none !important;
+        }
+        
+        header {
+            background-color: #e9ecf3;
+        }
+        
+        header {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header__bg {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background-image: linear-gradient(#ff9d2f, #ff6126); */
+            background: url(img/ch-pattern-01.svg) no-repeat top center, -webkit-gradient(linear, 26% 1%, 0% 19%, from(#018DE0), to(#0074f5));
+            background: url(img/ch-pattern-01.svg) no-repeat top center, -moz-gradient(linear, 26% 1%, 0% 19%, from(#018DE0), to(#0074f5));
+            background: url(img/ch-pattern-01.svg) no-repeat top center, -ms-gradient(linear, 26% 1%, 0% 19%, from(#018DE0), to(#0074f5));
+            /* background: -webkit-linear-gradient(left top, #018DE0, #0255B1);
+            background: -moz-linear-gradient(left top, #018DE0, #0255B1);
+            background: -ms-linear-gradient(left top, #018DE0, #0255B1); */
+        }
+        
+        h1 {
+            margin: 0;
+            padding: 0.5em 20px 20px 20px;
+            font-family: 'Lato', sans-serif;
+            font-size: 50px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        p {
+            margin: 0;
+            font-size: 15px;
+            text-align: center;
+            color: #fff;
+        }
+        
+        header p {
+            color: white;
+            margin: 0 auto;
+            line-height: 1.8em;
+            font-size: 18px;
+        }
+        
+        .reward {
+            float: right;
+            padding: 2em 5em;
+            margin-right: 5em;
+            margin-top: 14px;
+        }
+        
+        .reward h1 {
+            margin: 0 auto;
+        }
+        
+        .reward p {
+            position: relative;
+            color: white;
+            width: 80%;
+            margin: 0 auto;
+            /* line-height: 1.8em; */
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 25px;
+        }
+        
+        .invite-form h1 {
+            font-size: 30px;
+            color: #08598e;
+        }
+        
+        .invite-form p {
+            color: #406983;
+            margin: 0 auto;
+            line-height: 1.8em;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            text-align: center;
+            background-color: #0670b3;
+            padding: 5px;
+            font-size: 14px;
+            display: flex;
+            align-content: space-between
+        }
+        
+        .message img {
+            width: 7%;
+            margin-right: 15px;
+        }
+        
+        .thumb {
+            position: relative;
+            width: 60%;
+            margin: 0 auto;
+            left: 30%;
+            padding-top: 50px;
+        }
+        
+        .status {
+            text-align: center;
+            padding-top: 5em;
+        }
+        
+        .status p {
+            font-size: 7em;
+            font-weight: bold;
+            line-height: 1em;
+            color: #076fb3;
+        }
+        
+        .status small {
+            font-size: 15px;
+        }
+        
+        .bs-wizard {
+            margin-top: 40px;
+        }
+        /*Form Wizard*/
+        
+        .bs-wizard {
+            border-bottom: solid 1px #e0e0e0;
+            padding: 0 0 10px 0;
+        }
+        
+        .bs-wizard>.bs-wizard-step {
+            padding: 0;
+            position: relative;
+        }
+        
+        .bs-wizard>.bs-wizard-step+.bs-wizard-step {}
+        
+        .prog-bar h1 {
+            text-align: center;
+            font-size: 25px;
+            color: #406883;
+            margin-top: 20px;
+        }
+        
+        .bs-wizard>.bs-wizard-step .bs-wizard-stepnum {
+            color: #595959;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .bs-wizard>.bs-wizard-step .bs-wizard-info {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .bs-wizard>.bs-wizard-step>.bs-wizard-dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            display: block;
+            background: #369de4;
+            top: 45px;
+            left: 50%;
+            margin-top: -15px;
+            margin-left: -15px;
+            border-radius: 50%;
+        }
+        
+        .bs-wizard>.bs-wizard-step>.bs-wizard-dot:after {
+            content: ' ';
+            width: 14px;
+            height: 14px;
+            background: #076fb3;
+            border-radius: 50px;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+        
+        .bs-wizard>.bs-wizard-step>.progress {
+            position: relative;
+            border-radius: 0px;
+            height: 8px;
+            box-shadow: none;
+            margin: 20px 0;
+        }
+        
+        .bs-wizard>.bs-wizard-step>.progress>.progress-bar {
+            width: 0px;
+            box-shadow: none;
+            background: #018be1d4;
+        }
+        
+        .bs-wizard>.bs-wizard-step.complete>.progress>.progress-bar {
+            width: 100%;
+        }
+        
+        .bs-wizard>.bs-wizard-step.active>.progress>.progress-bar {
+            width: 50%;
+        }
+        
+        .bs-wizard>.bs-wizard-step:first-child.active>.progress>.progress-bar {
+            width: 0%;
+        }
+        
+        .bs-wizard>.bs-wizard-step:last-child.active>.progress>.progress-bar {
+            width: 100%;
+        }
+        
+        .bs-wizard>.bs-wizard-step.disabled>.bs-wizard-dot {
+            background-color: #f5f5f5;
+        }
+        
+        .bs-wizard>.bs-wizard-step.disabled>.bs-wizard-dot:after {
+            opacity: 0;
+        }
+        
+        .bs-wizard>.bs-wizard-step:first-child>.progress {
+            left: 50%;
+            width: 50%;
+        }
+        
+        .bs-wizard>.bs-wizard-step:last-child>.progress {
+            width: 50%;
+        }
+        
+        .bs-wizard>.bs-wizard-step.disabled a.bs-wizard-dot {
+            pointer-events: none;
+        }
+        
+        .wizard-cont {
+            float: none;
+            margin: 0 auto;
+            padding-bottom: 8em;
+        }
+        /*END Form Wizard*/
+        
+        .social-share-btns-container {
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            font-size: 0;
+            top: 50%;
+            margin: -30px 0;
+            text-align: center;
+            width: 100%;
+            z-index: 111;
+        }
+        
+        .social-share-btns {
+            display: inline-block;
+            overflow: hidden;
+        }
+        
+        .social-share-btns .share-btn {
+            float: left;
+            margin: 0 5px;
+            padding: 8px 16px;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 18px;
+            vertical-align: middle;
+            -moz-transition: background 0.2s ease-in-out;
+            -o-transition: background 0.2s ease-in-out;
+            -webkit-transition: background 0.2s ease-in-out;
+            transition: background 0.2s ease-in-out;
+        }
+        
+        .social-share-btns .share-btn i {
+            margin-right: 5px;
+            display: inline-block;
+            font-size: 18px;
+            vertical-align: middle;
+        }
+        
+        .share-btn {
+            background-color: #95a5a6;
+        }
+        
+        .share-btn:hover {
+            background-color: #798d8f;
+        }
+        
+        .share-btn-twitter {
+            background-color: #00aced;
+        }
+        
+        .share-btn-twitter:hover {
+            background-color: #0087ba;
+        }
+        
+        .share-btn-facebook {
+            background-color: #3b5998;
+        }
+        
+        .share-btn-facebook:hover {
+            background-color: #2d4373;
+        }
+        
+        @media (max-width: 767px) {
+            .wizard-cont {
+                float: none;
+                margin: 0 auto;
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <header>
+            <div class="row">
+                <div class="col-md-12 message">
+
+                    <p> <img src="{!! asset('img/like.svg') !!}" class="" />Thank you for joining us </p>
+
+                </div>
+            </div>
+            <div class="container" style="padding:2em; padding-bottom:0em;">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="col-md-6 invite-form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                     @if(isset($errors) && count($errors)>0)
+                                        @foreach($errors->all() as $error)
+                                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                                {{$error}}
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    <h1>Invite friends and earn </h1>
+                                    <p>Share your unique link via email , facebook or twitter and earn course herd goods for each of your friend who sign up</p>
+                                    {!! Form::open(['url'=>'refer', 'method'=>'POST']) !!}
+                                        <div class="form-group  email">
+
+                                            <!-- <i class="fa fa-user"></i> -->
+                                            <span>Share your unique link</span> Your email 
+                                            {{$returnVars['email'] or $details->email}}
+                                            <?php   
+                                                if(isset($details->referralKey)):
+                                                    $urlTo = $details->referralKey;
+                                                elseif(isset($returnVars['refKey'])):
+                                                    $urlTo = $returnVars['refKey'];
+                                                endif;                                            
+                                            ?>
+                                            <div class="input-group">
+                                            <input type="text" class="form-control" name="refLink" readonly id="refKey" placeholder="{{ url('/?rf='.$urlTo) }}"
+                                             title={{ url('/?rf='.$urlTo)}} value="{{ url('/?rf='.$urlTo)}} ">
+                                                <div class="input-group-addon btn btn-primary copyText" data-clipboard-target="#refKey" id="copyText"> Copy Link</div>
+                                            </div>
+                                                <div id="feedback-copy" style="display:none"> <span class="text-success">Copied to clipboard!</span> </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span>Send to Email</span>
+                                            <div class="input-group">
+                                                <input type="hidden" name="refLink" value="{{ url('/?rf='.$urlTo)}}">
+                                                <input type="text" class="form-control" name="email" placeholder="Enter Your Friend's email">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit" style="background-color: #076fb3;" type="button"> <i class='ion-paper-airplane' style="color:white;"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+                                   {!! Form::close() !!}
+
+                                </div>
+                                <div class="col-md-12 " style="height:43px;">
+                                    <div class='social-share-btns-container'>
+                                        <div class='social-share-btns'>
+                                        <a class='share-btn share-btn-twitter' href="https://twitter.com/intent/tweet?text=Hello friends, Click on my referral link to join the CoursHerd Journey...Invite friends, earn awesome prices, share course materials and make study easier @ {{ url('/?rf='.$urlTo)}}" rel='nofollow' target='_blank'>
+                                                <i class='ion-social-twitter'></i> Tweet
+                                            </a>
+                                            <a class='share-btn share-btn-facebook' href='https://www.facebook.com/sharer/sharer.php?u=Hello friends, Click on my referral link to join the CoursHerd Journey...Invite friends, earn awesome prices, share course materials and make study easier @ {{ url('/?rf='.$urlTo)}}' rel='nofollow' target='_blank'>
+                                                <i class='ion-social-facebook'></i> Share
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-3 col-md-offset-1 status">
+
+                            <small>You have invited</small>
+                            <p>{{ $details->referralCount or $returnVars['refCount'] }}</p>
+                            <small>Friends</small>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </header>
+    </section>
+
+    <section>
+        <div class="container prog-bar">
+            <h1>What you get</h1>
+            <!-- Example row of columns -->
+            <div class="col-md-12 wizard-cont">
+                <div class="row bs-wizard" style="border-bottom:0;">
+
+                    <div class="col-xs-4 bs-wizard-step complete">
+                        <div class="text-center bs-wizard-stepnum">5 friends</div>
+                        <div class="progress">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <a href="#" class="bs-wizard-dot"></a>
+                        <div class="bs-wizard-info text-center"><img src="{!! asset('img/courseHerdSwag2.png') !!}" width="80%"><br/>Stickers</div>
+                    </div>
+
+                    <div class="col-xs-4 bs-wizard-step active">
+                        <!-- complete -->
+                        <div class="text-center bs-wizard-stepnum">10 Friends</div>
+                        <div class="progress">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <a href="#" class="bs-wizard-dot"></a>
+                        <div class="bs-wizard-info text-center"><img src="{!! asset('img/shirt (1)-01.png') !!}" width="40%;"><br/>Courseherd shirts</div>
+                    </div>
+
+                    <div class="col-xs-4 bs-wizard-step disabled">
+                        <!-- complete -->
+                        <div class="text-center bs-wizard-stepnum">25 Friends</div>
+                        <div class="progress">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <a href="#" class="bs-wizard-dot"></a>
+                        <div class="bs-wizard-info text-center"><img src="{!! asset('img/confetti-01.png') !!}" width="40%;"><br/>Courseherd Launch Party</div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+     $(function(){
+            $('#copyText').click(function(){
+                
+                toastr.info('Copied to Clipboard!','',{timeOut: 1000});
+                toastr.options.closeButton = true;
+                toastr.options.closeDuration = 300;
+                toastr.options.closeEasing = 'swing';
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.preventDuplicates = true;
+
+            });
+           
+        }); 
+        @if(Session::has('emailSent'))
+                toastr.success("{{ Session::get('emailSent') }}",'',{timeOut: 4000});
+        @endif;
+        @if(Session::has('emailError'))
+                toastr.error("{{ Session::get('emailError') }}",'',{timeOut: 4000});
+        @endif;
+    </script>
+    <script src="{!! asset('js/bootstrap.js') !!}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{!! asset('js/ie10-viewport-bug-workaround.js') !!}"></script>
+    <script>
+            var clipboard = new ClipboardJS('.copyText');
+    </script>
+
+</body>
+
+</html>
