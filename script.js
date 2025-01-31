@@ -1,11 +1,16 @@
-// Firebase configuration (replace with your Firebase config)
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDlzbgw-yiXXxfDc99DzHWF8_JR0nlXGx8",
+  authDomain: "megadrop-d7f9f.firebaseapp.com",
+  projectId: "megadrop-d7f9f",
+  storageBucket: "megadrop-d7f9f.firebasestorage.app",
+  messagingSenderId: "726965576147",
+  appId: "1:726965576147:web:c601f7db7e2a1e18f44f26"
 };
 
 // Initialize Firebase
