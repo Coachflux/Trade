@@ -1,119 +1,135 @@
-// Helper function to generate a random referral code
-function generateReferralCode() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase()
+// Firebase configuration (replace with your Firebase config)
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let currentUser = null;
+
+// Show a specific page
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => {
+    page.style.display = 'none';
+  });
+  document.getElementById(pageId).style.display = 'block';
+
+  if (pageId === 'home-page' && currentUser) {
+    document.getElementById('username-display').textContent = currentUser.username;
+  } else if (pageId === 'referral-page' && currentUser) {
+    updateReferralPage();
+  }
 }
 
-// Helper function to get users from local storage
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users")) || []
-}
+// Signup function
+async function signup() {
+  const username = document.getElementById('signup-username').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+  const referralCode = document.getElementById('referral-code').value;
 
-// Helper function to save users to local storage
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users))
-}
-
-// Helper function to get current user from local storage
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem("currentUser"))
-}
-
-// Helper function to save current user to local storage
-function saveCurrentUser(user) {
-  localStorage.setItem("currentUser", JSON.stringify(user))
-}
-
-// Function to handle sign up
-function handleRegister(e) {
-  e.preventDefault()
-  const username = document.getElementById("username").value
-  const password = document.getElementById("password").value
-  const referralCode = document.getElementById("referral-code").value
-
-  const users = getUsers()
-  if (users.find((user) => user.username === username)) {
-    alert("Username already exists")
-    return
+  if (!username || !email || !password) {
+    alert('Please fill in all fields.');
+    return;
   }
 
-  const newUser = {
-    username,
-    password,
-    referralCode: generateReferralCode(),
-    points: 0,
-    referredUsers: [],
-  }
+  try {
+    // Create user in Firebase Authentication
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const user = userCredential.user;
 
-  users.push(newUser)
-  saveUsers(users)
+    // Generate a referral code
+    const newReferralCode = generateReferralCode();
 
-  if (referralCode) {
-    const referrer = users.find((user) => user.referralCode === referralCode)
-    if (referrer) {
-      referrer.points += 1
-      referrer.referredUsers.push(username)
-      saveUsers(users)
+    // Save user data to Firestore
+    await db.collection('users').doc(user.uid).set({
+      username,
+      email,
+      referralCode: newReferralCode,
+      points: 0,
+      invitedFriends: []
+    });
+
+    // If a referral code is provided, update the referrer's data
+    if (referralCode) {
+      const referrer = await db.collection('users').where('referralCode', '==', referralCode).get();
+      if (!referrer.empty) {
+        const referrerData = referrer.docs[0].data();
+        await db.collection('users').doc(referrer.docs[0].id).update({
+          points: referrerData.points + 1,
+          invitedFriends: [...referrerData.invitedFriends, username]
+        });
+      }
     }
-  }
 
-  alert("Sign up successful! Please login.")
-  window.location.href = "login.html"
+    alert('Signup successful! Please login.');
+    showPage('login-page');
+  } catch (error) {
+    alert(`Error: ${error.message}`);
+  }
 }
 
-// Function to handle login
-function handleLogin(e) {
-  e.preventDefault()
-  const username = document.getElementById("username").value
-  const password = document.getElementById("password").value
+// Login function
+async function login() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
 
-  const users = getUsers()
-  const user = users.find((u) => u.username === username && u.password === password)
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
 
+    // Fetch user data from Firestore
+    const userDoc = await db.collection('users').doc(user.uid).get();
+    currentUser = userDoc.data();
+    showPage('home-page');
+  } catch (error) {
+    alert(`Error: ${error.message}`);
+  }
+}
+
+// Logout function
+function logout() {
+  auth.signOut().then(() => {
+    currentUser = null;
+    showPage('login-page');
+  });
+}
+
+// Update referral page
+function updateReferralPage() {
+  if (!currentUser) return;
+
+  document.getElementById('user-referral-code').textContent = currentUser.referralCode;
+  document.getElementById('total-points').textContent = currentUser.points;
+  const invitedFriendsList = document.getElementById('invited-friends');
+  invitedFriendsList.innerHTML = currentUser.invitedFriends.map(friend => `<li>${friend}</li>`).join('');
+}
+
+// Generate a random referral code
+function generateReferralCode() {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+// Initialize
+showPage('signup-page');
+
+// Auth state observer
+auth.onAuthStateChanged(user => {
   if (user) {
-    saveCurrentUser(user)
-    window.location.href = "dashboard.html"
+    db.collection('users').doc(user.uid).get().then(doc => {
+      currentUser = doc.data();
+      showPage('home-page');
+    });
   } else {
-    alert("Invalid username or password")
+    currentUser = null;
+    showPage('signup-page');
   }
-}
-
-// Function to handle dashboard display
-function handleDashboard() {
-  const currentUser = getCurrentUser()
-  if (!currentUser) {
-    window.location.href = "login.html"
-  } else {
-    document.getElementById("user-name").textContent = currentUser.username
-    document.getElementById("referral-code").textContent = currentUser.referralCode
-    document.getElementById("points").textContent = currentUser.points
-
-    const referredList = document.getElementById("referred-list")
-    referredList.innerHTML = "" // Clear the list first
-    currentUser.referredUsers.forEach((user) => {
-      const li = document.createElement("li")
-      li.textContent = user
-      referredList.appendChild(li)
-    })
-
-    document.getElementById("logout-btn").addEventListener("click", () => {
-      localStorage.removeItem("currentUser")
-      window.location.href = "index.html"
-    })
-  }
-}
-
-// Check which page we're on and attach the appropriate event listeners
-document.addEventListener("DOMContentLoaded", () => {
-  const registerForm = document.getElementById("register-form")
-  const loginForm = document.getElementById("login-form")
-  const dashboard = document.getElementById("user-name")
-
-  if (signupForm) {
-    signupForm.addEventListener("submit", handleSignUp)
-  } else if (loginForm) {
-    loginForm.addEventListener("submit", handleLogin)
-  } else if (dashboard) {
-    handleDashboard()
-  }
-})
-
+});
