@@ -1,57 +1,55 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #e0e5ec;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+    font-family: Arial, sans-serif;
+    background: #e0e5ec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-#app {
-  background-color: #e0e5ec;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+.container {
+    background: #e0e5ec;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
+    text-align: center;
+    width: 300px;
 }
 
-.page {
-  text-align: center;
+.task-list {
+    list-style: none;
+    padding: 0;
 }
 
-input {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background-color: #e0e5ec;
-  box-shadow: inset 3px 3px 5px rgba(163, 177, 198, 0.6), inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+.task-list li {
+    background: #e0e5ec;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+    cursor: pointer;
+}
+
+.task-list li:active {
+    box-shadow: inset 8px 8px 16px #bebebe, inset -8px -8px 16px #ffffff;
 }
 
 button {
-  margin: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  background-color: #e0e5ec;
-  box-shadow: 3px 3px 5px rgba(163, 177, 198, 0.6), -3px -3px 5px rgba(255, 255, 255, 0.5);
-  cursor: pointer;
+    background: #e0e5ec;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
 }
 
-button:active {
-  box-shadow: inset 3px 3px 5px rgba(163, 177, 198, 0.6), inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-h1 {
-  color: #333;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-ul li {
-  margin: 5px 0;
+button.completed {
+    background: #4CAF50;
+    color: white;
+    font-weight: bold;
 }
