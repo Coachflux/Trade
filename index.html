@@ -1,55 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Referral App</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app">
-    <!-- Signup Page -->
-    <div id="signup-page" class="page">
-      <h1>Sign Up</h1>
-      <input type="text" id="signup-username" placeholder="Username">
-      <input type="email" id="signup-email" placeholder="Email">
-      <input type="password" id="signup-password" placeholder="Password">
-      <input type="text" id="referral-code" placeholder="Referral Code (Optional)">
-      <button onclick="signup()">Sign Up</button>
-      <p>Already have an account? <a href="#" onclick="showPage('login-page')">Login</a></p>
+    <div class="container">
+        <h2>Complete Your Tasks</h2>
+        <ul class="task-list">
+            <li onclick="startTask(1)">Task 1 <span id="task1Status">❌</span></li>
+            <li onclick="startTask(2)">Task 2 <span id="task2Status">❌</span></li>
+            <li onclick="startTask(3)">Task 3 <span id="task3Status">❌</span></li>
+        </ul>
+        <button id="submitButton" disabled>Submit</button>
     </div>
-
-    <!-- Login Page -->
-    <div id="login-page" class="page" style="display: none;">
-      <h1>Login</h1>
-      <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Password">
-      <button onclick="login()">Login</button>
-      <p>Don't have an account? <a href="#" onclick="showPage('signup-page')">Sign Up</a></p>
-    </div>
-
-    <!-- Home Page -->
-    <div id="home-page" class="page" style="display: none;">
-      <h1>Welcome, <span id="username-display"></span></h1>
-      <button onclick="showPage('referral-page')">View Referrals</button>
-      <button onclick="logout()">Logout</button>
-    </div>
-
-    <!-- Referral Page -->
-    <div id="referral-page" class="page" style="display: none;">
-      <h1>Referral Page</h1>
-      <p>Your Referral Code: <strong id="user-referral-code"></strong></p>
-      <p>Total Points: <strong id="total-points"></strong></p>
-      <h3>Invited Friends:</h3>
-      <ul id="invited-friends"></ul>
-      <button onclick="showPage('home-page')">Back to Home</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
